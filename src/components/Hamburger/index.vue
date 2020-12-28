@@ -24,6 +24,7 @@ export default {
   },
   methods: {
     toggleClick() {
+      // eslint-disable-next-line vue/custom-event-name-casing
       this.$emit('toggleClick')
     }
   }
