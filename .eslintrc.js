@@ -15,11 +15,6 @@ module.exports = {
   //it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
     "no-unused-vars":"off",
-    "vue/custom-event-name-casing": ["error",
-      "kebab-case" | "camelCase",
-      {
-        "ignores": []
-      }
-    ]
+    "vue/custom-event-name-casing": 0
   },
 };
