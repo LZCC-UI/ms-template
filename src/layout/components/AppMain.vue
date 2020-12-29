@@ -5,7 +5,6 @@
         <router-view :key="key" />
       </transition>
     </section>
-    
   </section>
 </template>
 

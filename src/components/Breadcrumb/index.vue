@@ -1,8 +1,8 @@
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item,index) in levelList" :key="index+1">
-         <!-- <span
+      <el-breadcrumb-item v-for="(item, index) in levelList" :key="index + 1">
+        <!-- <span
           v-if="item.redirect === 'noRedirect' || index == levelList.length - 1"
           class="no-redirect"
         >
@@ -10,9 +10,11 @@
         </span>
         <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a> -->
 
-       <router-link v-if="item.path" :to="item.path">{{item.title}}</router-link>
+        <router-link v-if="item.path" :to="item.path">
+          {{ item.title }}
+        </router-link>
         <a v-else>
-          {{item.title}}
+          {{ item.title }}
         </a>
       </el-breadcrumb-item>
     </transition-group>
@@ -42,25 +44,24 @@ export default {
   },
   methods: {
     getBreadcrumb() {
-     
       // only show routes with meta.title
-      console.log(this.$route);
-      let breadcrumb=this.$route.meta.breadcrumbs||[];
-      breadcrumb = [{ path: '/dashboard',title: 'Dashboard'}].concat(
+      console.log(this.$route)
+      let breadcrumb = this.$route.meta.breadcrumbs || []
+      breadcrumb = [{ path: '/dashboard', title: 'Dashboard' }].concat(
         breadcrumb
       )
-      if(!this.isDashboard(this.$route)){
-        breadcrumb.push({title: this.$route.meta.title})
+      if (!this.isDashboard(this.$route)) {
+        breadcrumb.push({ title: this.$route.meta.title })
       }
-      
+
       this.levelList = breadcrumb.filter(
-        item => item.title&&item.show !== false
+        item => item.title && item.show !== false
       )
-      console.log(breadcrumb);
+      console.log(breadcrumb)
       // let matched = this.$route.matched.filter(
       //   item => item.meta && item.meta.title
       // )
-      
+
       // const first = matched[0]
 
       // if (!this.isDashboard(first)) {
