@@ -1,14 +1,19 @@
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item, index) in levelList" :key="item.path">
-        <span
+      <el-breadcrumb-item v-for="(item,index) in levelList" :key="index+1">
+         <!-- <span
           v-if="item.redirect === 'noRedirect' || index == levelList.length - 1"
           class="no-redirect"
         >
           {{ item.meta.title }}
         </span>
-        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
+        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a> -->
+
+       <router-link v-if="item.path" :to="item.path">{{item.title}}</router-link>
+        <a v-else>
+          {{item.title}}
+        </a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -37,21 +42,35 @@ export default {
   },
   methods: {
     getBreadcrumb() {
+     
       // only show routes with meta.title
-      let matched = this.$route.matched.filter(
-        item => item.meta && item.meta.title
+      console.log(this.$route);
+      let breadcrumb=this.$route.meta.breadcrumbs||[];
+      breadcrumb = [{ path: '/dashboard',title: 'Dashboard'}].concat(
+        breadcrumb
       )
-      const first = matched[0]
-
-      if (!this.isDashboard(first)) {
-        matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } }].concat(
-          matched
-        )
+      if(!this.isDashboard(this.$route)){
+        breadcrumb.push({title: this.$route.meta.title})
       }
-
-      this.levelList = matched.filter(
-        item => item.meta && item.meta.title && item.meta.breadcrumb !== false
+      
+      this.levelList = breadcrumb.filter(
+        item => item.title&&item.show !== false
       )
+      console.log(breadcrumb);
+      // let matched = this.$route.matched.filter(
+      //   item => item.meta && item.meta.title
+      // )
+      
+      // const first = matched[0]
+
+      // if (!this.isDashboard(first)) {
+      //   matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } }].concat(
+      //     matched
+      //   )
+      // }
+      // this.levelList = matched.filter(
+      //   item => item.meta && item.meta.title && item.meta.breadcrumb !== false
+      // )
     },
     isDashboard(route) {
       const name = route && route.name
