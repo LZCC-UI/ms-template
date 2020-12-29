@@ -26,8 +26,8 @@ export default [
         },
       },
       {
-        path: 'createPersonalSellLink',
-        name: 'createPersonalSellLink',
+        path: 'shool-manage',
+        name: 'shool-manage',
         component: () => import('@/views/school-cloud/shool-manage.vue'),
         meta: {
           title: '学校管理',
