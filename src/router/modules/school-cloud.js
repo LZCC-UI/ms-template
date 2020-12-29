@@ -1,4 +1,4 @@
-import Layout from "@/layout/index";
+import Layout from '@/layout/index'
 
 /**
  *h5页面比较零碎，麻烦写好页面注释
@@ -12,7 +12,7 @@ export default [
       title: '学校云管理',
       icon: 'el-icon-s-tools',
       affix: true,
-      breadcrumb: false
+      breadcrumb: true,
     },
     alwaysShow: true,
     children: [
@@ -43,9 +43,9 @@ export default [
         component: () => import('@/views/school-cloud/shool-manage.vue'),
         meta: {
           title: '学校管理',
-          affix: true
+          affix: true,
         },
       },
-    ]
+    ],
   },
-];
+]

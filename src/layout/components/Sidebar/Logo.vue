@@ -22,16 +22,16 @@ export default {
   props: {
     collapse: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       logo: 'https://shared.ydstatic.com/ydkids/website/index/logo.png',
       miniLogo:
-        'https://shared.ydstatic.com/ydkids/online/wx/img/youdao-logo.png'
+        'https://shared.ydstatic.com/ydkids/online/wx/img/youdao-logo.png',
     }
-  }
+  },
 }
 </script>
 
