@@ -4,7 +4,7 @@ import { Message } from 'element-ui'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   withCredentials: true,
-  timeout: 60000
+  timeout: 60000,
 })
 
 service.interceptors.response.use(
@@ -20,7 +20,7 @@ service.interceptors.response.use(
       Message({
         message: '用户无此接口权限',
         type: 'error',
-        duration: 3 * 1000
+        duration: 3 * 1000,
       })
     } else if (res.retcode === 20064) {
       window.open('about:_self', '_self')
@@ -38,7 +38,7 @@ service.interceptors.response.use(
     Message({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 5 * 1000,
     })
     return Promise.reject(error)
   }

@@ -2,13 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
-let allRouters = [];
-const modulesFiles = require.context("./modules", true, /\.js$/);
+let allRouters = []
+const modulesFiles = require.context('./modules', true, /\.js$/)
 modulesFiles.keys().forEach(modulePath => {
-  const moduleArr = modulesFiles(modulePath).default; // 获取导出模块得对象
-  allRouters = allRouters.concat(moduleArr);
-});
-
+  const moduleArr = modulesFiles(modulePath).default // 获取导出模块得对象
+  allRouters = allRouters.concat(moduleArr)
+})
 
 import Layout from '@/layout'
 
@@ -42,7 +41,7 @@ export const constantRoutes = [
   {
     path: '/404',
     component: () => import('@/views/error-page/404'),
-    hidden: true
+    hidden: true,
   },
   {
     path: '/',
@@ -54,19 +53,19 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: '首页', affix: true }
-      }
-    ]
+        meta: { title: '首页', affix: true },
+      },
+    ],
   },
   ...allRouters,
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '*', redirect: '/404', hidden: true },
 ]
 
 const createRouter = () =>
   new Router({
     scrollBehavior: () => ({ y: 0 }),
-    mode: "history",
-    routes: constantRoutes
+    mode: 'history',
+    routes: constantRoutes,
   })
 
 const router = createRouter()

@@ -25,7 +25,7 @@ export default {
   components: {
     AppMain,
     Navbar,
-    Sidebar
+    Sidebar,
   },
   mixins: [ResizeMixin],
   computed: {
@@ -33,22 +33,22 @@ export default {
       sidebar: state => state.app.sidebar,
       device: state => state.app.device,
       showSettings: state => state.settings.showSettings,
-      fixedHeader: state => state.settings.fixedHeader
+      fixedHeader: state => state.settings.fixedHeader,
     }),
     classObj() {
       return {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
         withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
+        mobile: this.device === 'mobile',
       }
-    }
+    },
   },
   methods: {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -62,7 +62,7 @@ export default {
   height: 100%;
   // width: 100%;
   min-width: 1300px;
-  overflow-x:scroll;
+  overflow-x: scroll;
 
   &.mobile.openSidebar {
     position: fixed;

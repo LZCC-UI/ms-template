@@ -1,10 +1,10 @@
-import req from "@/api/service";
+import req from '@/api/service'
 import areas from '@/utils/areas.js'
-async function importExecl (url, file, option) {
+async function importExecl(url, file, option) {
   // URL：请求API，file：导入的文件；option需要校验的表头
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
-    reader.onload = function(event) {
+    reader.onload = function (event) {
       try {
         const bytes = new Uint8Array(event.target.result)
         let binary = ''
@@ -31,7 +31,7 @@ async function importExeclHandle(data, url, file, option) {
   let res
   if (data.length != 0 && checkFileHead(data[0], option)) {
     res = await req.post(url, file, {
-      'Content-type': 'application/json;charset=UTF-8'
+      'Content-type': 'application/json;charset=UTF-8',
     })
   } else {
     // 内容不符合要求
@@ -73,7 +73,7 @@ async function exportFile(url, params, reqType) {
     res = await req.post(url, params, { responseType: 'arraybuffer' })
     let fileName = res.headers['content-disposition'].split('filename=')[1]
     const blob = new Blob([res.data], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     })
     // console.log( new Blob([res.data], {type: "application/vnd.ms-excel"}));
     const link = document.createElement('a')
@@ -85,35 +85,51 @@ async function exportFile(url, params, reqType) {
   }
 }
 //地址 code 转化 四个直辖市
-// 后台获取之后转化 适配area.js  
-function recoverAddressCode(address){
-  if (address.provinceCode === '110000' ||address.provinceCode === '120000' ||address.provinceCode === '310000' || address.provinceCode === '500000') {
-    address.cityCode = String(address.provinceCode - 0 + 100);
+// 后台获取之后转化 适配area.js
+function recoverAddressCode(address) {
+  if (
+    address.provinceCode === '110000' ||
+    address.provinceCode === '120000' ||
+    address.provinceCode === '310000' ||
+    address.provinceCode === '500000'
+  ) {
+    address.cityCode = String(address.provinceCode - 0 + 100)
   }
   return address
 }
 // 根据code获取对应name
-function getCodeName (provinceCode, cityCode, countyCode){
-  let obj={};
-  if(provinceCode){
-    obj.provinceCode=provinceCode;
+function getCodeName(provinceCode, cityCode, countyCode) {
+  let obj = {}
+  if (provinceCode) {
+    obj.provinceCode = provinceCode
     obj.provinceName = areas.province_list[provinceCode]
   }
-  if (cityCode){
-    obj.cityCode = cityCode;
+  if (cityCode) {
+    obj.cityCode = cityCode
     obj.cityName = areas.city_list[cityCode]
   }
-  if (countyCode){
-    obj.districtCode = countyCode;
+  if (countyCode) {
+    obj.districtCode = countyCode
     obj.districtName = areas.city_list[countyCode]
   }
-  return obj;
+  return obj
 }
 //提交之前  预处理
-function coverAddressCode(address){
-  if (address.provinceCode === '110000' || address.provinceCode === '120000' || address.provinceCode === '310000' || address.provinceCode === '500000') {
-    address.cityCode = address.provinceCode;
+function coverAddressCode(address) {
+  if (
+    address.provinceCode === '110000' ||
+    address.provinceCode === '120000' ||
+    address.provinceCode === '310000' ||
+    address.provinceCode === '500000'
+  ) {
+    address.cityCode = address.provinceCode
   }
-  return address;
+  return address
 }
-export { importExecl, exportFile, recoverAddressCode, coverAddressCode, getCodeName};
+export {
+  importExecl,
+  exportFile,
+  recoverAddressCode,
+  coverAddressCode,
+  getCodeName,
+}

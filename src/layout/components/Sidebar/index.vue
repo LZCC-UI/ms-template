@@ -33,7 +33,7 @@ import { constantRoutes } from '@/router'
 export default {
   data() {
     return {
-      constantRoutes: constantRoutes
+      constantRoutes: constantRoutes,
     }
   },
   // methods:{
@@ -63,7 +63,7 @@ export default {
     },
     isCollapse() {
       return !this.sidebar.opened
-    }
-  }
+    },
+  },
 }
 </script>

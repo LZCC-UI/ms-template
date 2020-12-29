@@ -20,7 +20,7 @@ import pathToRegexp from 'path-to-regexp'
 export default {
   data() {
     return {
-      levelList: null
+      levelList: null,
     }
   },
   watch: {
@@ -30,7 +30,7 @@ export default {
         return
       }
       this.getBreadcrumb()
-    }
+    },
   },
   created() {
     this.getBreadcrumb()
@@ -73,8 +73,8 @@ export default {
         return
       }
       this.$router.push(this.pathCompile(path))
-    }
-  }
+    },
+  },
 }
 </script>
 

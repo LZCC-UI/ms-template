@@ -11,15 +11,15 @@ import './permission'
 import { Message } from 'element-ui'
 import fetchData from '@/api/fetchData'
 import * as filters from './filters'
-Vue.prototype.fetchData=fetchData;
-Vue.prototype.$message=Message;
+Vue.prototype.fetchData = fetchData
+Vue.prototype.$message = Message
 
-Object.keys(filters).forEach(key=>{
-  Vue.filter(key,filters[key])//插入过滤器名和对应方法
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key]) //插入过滤器名和对应方法
 })
 
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium'
+  size: Cookies.get('size') || 'medium',
 })
 
 Vue.config.productionTip = false
@@ -28,5 +28,5 @@ new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 })
