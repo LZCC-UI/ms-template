@@ -3,29 +3,36 @@
     <el-upload
       :class="['avatar-uploader', uploadDisable ? 'disableClass' : '']"
       style="cursor: not-allowed"
-	  
       :action="pic"
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
       :disabled="uploadDisable"
-      :before-upload="
-        file => {
-          return _global_checkFile(file, {
-            i: 'jpg,png,gif',
-            w: size.w,
-            h: size.h,
-          })
-        }
-      "
+      :before-upload="beforeUpload"
     >
-      <div slot="file" slot-scope="file">
-        <img :src="file.url" class="avatar" />
-        <span class="el-upload-item-delete" @click="handleRemove(file)">
-          <i class="el-icon-delete"></i>
-        </span>
+      <div v-if="imageUrl">
+        <img
+          :src="imageUrl"
+          class="avatar"
+          @mouseover="hover = 1"
+          @mouseleave="hover = -1"
+        />
+        <div
+          v-show="showDelete && hover == 1"
+          class="upload_hover_del"
+          @mouseover="hover = 1"
+          @mouseleave="hover = -1"
+          @click="
+            e => {
+              e.preventDefault()
+              e.stopPropatation || (e.cancelBubble = true)
+            }
+          "
+        >
+          <i class="el-icon-delete" @click="handleRemove"></i>
+        </div>
       </div>
       <i
-        slot="default"
+        v-else
         :class="[{ 'el-icon-plus': showPlus }, 'avatar-uploader-icon']"
       ></i>
     </el-upload>
@@ -34,7 +41,7 @@
 
 <script>
 import * as picture from '@/utils/picUrl'
-import { _global_checkFile } from '@/utils/imgUploadVal'
+import _global_checkFile from '@/utils/imgUploadVal'
 export default {
   props: {
     size: {
@@ -44,6 +51,10 @@ export default {
       },
     },
     showPlus: {
+      type: Boolean,
+      default: () => true,
+    },
+    showDelete: {
       type: Boolean,
       default: () => true,
     },
@@ -62,14 +73,18 @@ export default {
   },
   data() {
     return {
+      hover: 0,
       imageUrl: null,
     }
   },
   created() {
     this.pic = picture.BASE_PICTURE_URL
-    console.log(this.showPlus)
   },
   watch: {
+    // hover(newVal, oldVal) {
+    //   if (newVal == 1) {
+    //   }
+    // },
     imgUrl: {
       handler(newValue, oldValue) {
         this.imageUrl = newValue
@@ -78,8 +93,21 @@ export default {
     },
   },
   methods: {
+    beforeUpload(file) {
+      _global_checkFile(file, {
+        i: 'jpg,png,gif',
+        w: this.size.w,
+        h: this.size.h,
+      })
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = res.data[0]
+      this.$emit('change', this.imageUrl)
+    },
+    handleRemove(e) {
+      e.stopPropatation || (e.cancelBubble = true)
+      e.preventDefault()
+      this.imageUrl = ''
       this.$emit('change', this.imageUrl)
     },
   },
@@ -91,6 +119,22 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+.upload_hover_del {
+  width: 127px;
+  height: 127px;
+  display: inline-block;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  .el-icon-delete {
+    color: white;
+    pointer-events: auto;
+    margin-top: 50px;
+  }
+}
 .avatar-uploader .el-upload {
   border-radius: 6px;
   cursor: pointer;
@@ -105,6 +149,7 @@ export default {
   height: 128px;
   display: block;
   border: 1px dashed #d9d9d9 !important;
+  border-radius: 6px;
   font-size: 28px;
   color: #8c939d;
   line-height: 128px;
@@ -114,6 +159,7 @@ export default {
   border: 1px dashed #d9d9d9 !important;
   width: 126px;
   height: 126px;
+  border-radius: 6px;
   display: block;
 }
 </style>

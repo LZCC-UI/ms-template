@@ -30,34 +30,29 @@
         </el-form-item>
         <li class="markTip">（最多可输入400字）</li>
         <el-form-item label="区域背景图片:">
-          <el-input
-            type="textarea"
-            :autosize="{ minRows: 8, maxRows: 10 }"
-            placeholder="请输入英文缩写"
-          ></el-input>
+          <singleImgUpload v-model="areaForm.bgImg"></singleImgUpload>
         </el-form-item>
-        <li class="markTip">（最多可输入400字）</li>
       </el-form>
     </section>
 
     <p>下辖学校</p>
     <section class="schoolList">
-      <el-button type="primary">添加学校</el-button>
+      <el-button type="primary" @click="schoolDia = true">添加学校</el-button>
       <el-table :data="areaForm.schoolList" border>
         <el-table-column label="序号" align="center">
           <template slot-scope="scope">{{ scope.$index }}</template>
         </el-table-column>
         <el-table-column label="学校名称" align="center">
-          <template slot-scope="scope">{{ scope.$index }}</template>
+          <template slot-scope="scope">{{ scope.row.schoolName }}</template>
         </el-table-column>
         <el-table-column label="英文缩写" align="center">
-          <template slot-scope="scope">{{ scope.$index }}</template>
+          <template slot-scope="scope">{{ scope.row.schoolEnName }}</template>
         </el-table-column>
         <el-table-column label="背景图片" align="center">
-          <template slot-scope="scope">{{ scope.$index }}</template>
+          <template slot-scope="scope">{{ scope.row.schoolImg }}</template>
         </el-table-column>
         <el-table-column label="学校徽章" align="center">
-          <template slot-scope="scope">{{ scope.$index }}</template>
+          <template slot-scope="scope">{{ scope.row.schoolIcon }}</template>
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -68,12 +63,33 @@
         </el-table-column>
       </el-table>
     </section>
+    <div class="footer">
+      <el-button type="primary">创建</el-button>
+      <el-button type="primary">取消</el-button>
+    </div>
+    <el-dialog :visible.sync="schoolDia" width="900px">
+      <section class="_inline">
+        <el-input
+          v-model="schoolDiaData.searchParam"
+          placeholder="请输入想要搜索的学校"
+        ></el-input>
+        <el-button type="primary">搜索</el-button>
+      </section>
+      <el-table :data="schoolDiaData.schoolList" border ref="multipleTable">
+        <el-table-column
+          label="选择"
+          type="selection"
+          width="55"
+        ></el-table-column>
+        <el-table-column label="学校名称" prop="schoolName"></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 <script>
-import singleImgUpload from '@/views/customer-component/singleImgUpload'
+import singleImgUpload from '@/components/customer-component/singleImgUpload'
 export default {
-  components: ['singleImgUpload'],
+  components: { singleImgUpload },
   data() {
     let checkName = (rule, value, callback) => {
       if (value) {
@@ -92,6 +108,22 @@ export default {
       }
     }
     return {
+      schoolDia: false,
+      schoolDiaData: {
+        searchParam: '',
+        schoolIndex: 1,
+        schoolTotal: 100,
+        schoolList: [
+          {
+            schoolName: '',
+            schoolEnName: '',
+            schoolImg: '',
+            schoolIcon: '',
+          },
+        ],
+      },
+      schoolTotalChecked: [], //当前区域，所属学校的全部内容
+      schoolCurrentPageChecked: [], //弹框，当前页的默认勾选项
       areaForm: {
         name: '',
         enName: '',
@@ -100,9 +132,9 @@ export default {
         schoolList: [
           {
             schoolName: '',
-            schooleEnName: '',
-            schooleImg: '',
-            schooleIcon: '',
+            schoolEnName: '',
+            schoolImg: '',
+            schoolIcon: '',
           },
         ],
       },
