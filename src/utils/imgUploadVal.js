@@ -21,13 +21,20 @@ export default function _global_checkFile(file, params) {
 }
 
 function _global_checkSize(file, params) {
+  console.log(params)
   const width = params.w || 10000
   const height = params.h || 10000
+  const compTag = params.compTag || -1
   return new Promise((resolve, reject) => {
     const _URL = window.URL || window.webkitURL
     const img = new Image()
     img.onload = () => {
-      const valid = img.width <= width && img.height <= height
+      // compTag:1表示大于，-1表示不大于
+      const valid =
+        compTag == 1
+          ? img.width > width && img.height > height
+          : img.width <= width && img.height <= height
+      console.log(valid)
       if (valid) resolve()
       else reject()
     }
@@ -37,7 +44,12 @@ function _global_checkSize(file, params) {
       return file
     },
     () => {
-      this._global_tips('warning', `文件尺寸不超过${width} * ${height}`)
+      _global_tips(
+        'warning',
+        compTag == 1
+          ? `文件尺寸不小于${width} * ${height}`
+          : `文件尺寸不超过${width} * ${height}`
+      )
       return Promise.reject()
     }
   )

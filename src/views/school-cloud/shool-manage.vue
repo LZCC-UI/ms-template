@@ -5,6 +5,7 @@
         class="search-input"
         v-model="searchKey"
         placeholder="请输入搜索学校的全称"
+        clearable
         @keyup.enter="getData"
       ></el-input>
       <el-button type="primary" @click="getData">搜索</el-button>
@@ -13,13 +14,42 @@
     </div>
     <div class="tab-list">
       <el-table :data="tableData" border style="width: 100%">
-        <el-table-column prop="date" label="学校名称"></el-table-column>
-        <el-table-column prop="name" label="英文缩写"></el-table-column>
-        <el-table-column prop="address" label="背景图片"></el-table-column>
-        <el-table-column prop="address" label="学校校徽"></el-table-column>
-        <el-table-column prop="address" label="价格方案名称"></el-table-column>
-        <el-table-column prop="address" label="价格方案描述"></el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column
+          prop="date"
+          label="学校名称"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          prop="name"
+          label="英文缩写"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          prop="address"
+          label="背景图片"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          prop="address"
+          label="学校校徽"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          prop="address"
+          label="价格方案名称"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          prop="address"
+          label="价格方案描述"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          prop="address"
+          label="操作"
+          width="200px"
+          align="center"
+        >
           <template slot-scope="scope">
             <el-link
               @click="edit(scope)"
@@ -30,7 +60,7 @@
               编辑
             </el-link>
             <el-link class="operation-btn" :underline="false" type="danger">
-              危险链接
+              删除
             </el-link>
             <el-link class="operation-btn" :underline="false" type="primary">
               复制链接
@@ -40,10 +70,11 @@
       </el-table>
     </div>
     <el-pagination
-      class="pagination"
-      background
-      layout="prev, pager, next"
-      :total="1000"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-size="20"
+      layout="total,prev, pager, next, jumper"
+      :total="400"
     ></el-pagination>
   </div>
 </template>
@@ -53,6 +84,7 @@ export default {
   name: 'shool-manage',
   data() {
     return {
+      currentPage: 1,
       searchKey: '',
       tableData: [
         {
@@ -94,16 +126,20 @@ export default {
     }
   },
   methods: {
-    reset() {},
-    creatShool() {},
+    reset() {
+      this.searchKey = ''
+    },
+    creatShool() {
+      this.$router.push({ name: 'addSchool' })
+    },
     getData() {},
+    handleCurrentChange() {},
   },
 }
 </script>
 
 <style scoped lang="scss">
 .shool-manage {
-  padding: 20px;
   .search-line {
     .search-input {
       width: 300px;

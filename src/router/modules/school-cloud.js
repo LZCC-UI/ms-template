@@ -26,9 +26,9 @@ export default [
         },
       },
       {
-        path: 'updateArea',
-        name: 'updateArea',
-        component: () => import('@/views/school-cloud/updateArea.vue'),
+        path: 'addArea',
+        name: 'addArea',
+        component: () => import('@/views/school-cloud/updateOrAddArea.vue'),
         meta: {
           title: '新建区域主页',
           affix: true,
@@ -47,6 +47,20 @@ export default [
           title: '学校管理',
           affix: true,
         },
+      },
+      {
+        path: 'addSchool',
+        name: 'addSchool',
+        component: () => import('@/views/school-cloud/updateOrAddSchool.vue'),
+        meta: {
+          title: '新建学校主页',
+          affix: true,
+          breadcrumbs: [
+            { path: '/school-cloud/shool-manage', title: '区域管理' },
+          ], //面包屑部分，面包屑中自动补充dashboard，以及自身，此处填写中间的部分，*注意必须按照顺序填写
+          activeMenu: '/school-cloud/shool-manage', //菜单激活部分 为区域管理
+        },
+        hidden: true,
       },
     ],
   },

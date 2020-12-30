@@ -1,10 +1,17 @@
+// 表格上间距
 .el-table {
   margin-top: 20px;
 }
+// 分页居中
 .el-pagination {
-  margin-top: 20px;
+  margin: 20px 0;
   text-align: center;
 }
+//改变elementui dialog对话框 圆角
+.el-dialog {
+  border-radius: 12px;
+}
+//要求一行显示，且增加间距
 ._inline {
   display: flex;
   flex-direction: row;
@@ -38,6 +45,7 @@
     margin: 3px 0 0 15px;
   }
 }
+// 页面底部居中
 .footer {
   display: flex;
   justify-content: center;

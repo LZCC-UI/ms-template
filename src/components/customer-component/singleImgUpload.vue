@@ -44,10 +44,10 @@ import * as picture from '@/utils/picUrl'
 import _global_checkFile from '@/utils/imgUploadVal'
 export default {
   props: {
-    size: {
+    imgAttrs: {
       type: Object,
       default: function () {
-        return { w: '', h: '' }
+        return { w: '', h: '', k: 1024, compTag: -1 }
       },
     },
     showPlus: {
@@ -81,10 +81,6 @@ export default {
     this.pic = picture.BASE_PICTURE_URL
   },
   watch: {
-    // hover(newVal, oldVal) {
-    //   if (newVal == 1) {
-    //   }
-    // },
     imgUrl: {
       handler(newValue, oldValue) {
         this.imageUrl = newValue
@@ -94,10 +90,12 @@ export default {
   },
   methods: {
     beforeUpload(file) {
-      _global_checkFile(file, {
+      return _global_checkFile(file, {
         i: 'jpg,png,gif',
-        w: this.size.w,
-        h: this.size.h,
+        w: this.imgAttrs.w,
+        h: this.imgAttrs.h,
+        compTag: this.imgAttrs.compTag,
+        k: this.imgAttrs.k,
       })
     },
     handleAvatarSuccess(res, file) {
