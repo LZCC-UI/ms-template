@@ -100,6 +100,7 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = res.data[0]
+      this.hover = -1
       this.$emit('change', this.imageUrl)
     },
     handleRemove(e) {

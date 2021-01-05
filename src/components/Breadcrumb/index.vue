@@ -45,7 +45,6 @@ export default {
   methods: {
     getBreadcrumb() {
       // only show routes with meta.title
-      console.log(this.$route)
       let breadcrumb = this.$route.meta.breadcrumbs || []
       breadcrumb = [{ path: '/dashboard', title: 'Dashboard' }].concat(
         breadcrumb
@@ -57,7 +56,6 @@ export default {
       this.levelList = breadcrumb.filter(
         item => item.title && item.show !== false
       )
-      console.log(breadcrumb)
       // let matched = this.$route.matched.filter(
       //   item => item.meta && item.meta.title
       // )
