@@ -1,6 +1,6 @@
 // 1.定义svg-icon组件
 import Vue from 'vue'
-import SvgIcon from '@/components/SvgIcon.vue'
+import SvgIcon from '@/components/SvgIcon'
 
 Vue.component('svg-icon', SvgIcon)
 
