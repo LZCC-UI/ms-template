@@ -32,7 +32,7 @@ module.exports = {
     },
     proxy: {
       '/dev-api': {
-        target: 'http://10.236.120.246:9998/',
+        target: 'http://test1-yunkems.inner.youdao.com/',
         changeOrigin: true,
         pathRewrite: {
           '^/dev-api': 'http://localhost:8080',

@@ -86,7 +86,7 @@ export default [
           breadcrumbs: [
             { path: '/school-cloud/shool-manage', title: '区域管理' },
           ], //面包屑部分，面包屑中自动补充dashboard，以及自身，此处填写中间的部分，*注意必须按照顺序填写
-          activeMenu: '/school-cloud/shool-manage', //菜单激活部分 为区域管理
+          activeMenu: '/school-cloud/school-manage', //菜单激活部分 为区域管理
         },
         hidden: true,
       },

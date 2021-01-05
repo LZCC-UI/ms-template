@@ -26,7 +26,7 @@
         ></el-table-column>
         <el-table-column label="背景图片" align="center">
           <template slot-scope="scope">
-            <div v-if="!scope.row.schoolBackgroundImg"></div>
+            <div v-if="!scope.row.schoolBackgroundImg" class="imgStyle"></div>
 
             <img
               v-else
@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column label="学校校徽" align="center">
           <template slot-scope="scope">
-            <div v-if="!scope.row.schoolBadge"></div>
+            <div v-if="!scope.row.schoolBadge" class="imgStyle"></div>
 
             <img v-else class="imgStyle" :src="scope.row.schoolBadge" alt="" />
           </template>
@@ -131,7 +131,16 @@ export default {
       }).then(res => {
         this.tableData = res.data.pageData
         this.total = res.data.totalSize
+        this.dealWithData()
       })
+    },
+    dealWithData() {
+      for (let item of this.tableData) {
+        if (item.schoolNameEn.length > 15) {
+          item.schoolNameEnCopy = item.schoolNameEn
+          item.schoolNameEn = item.schoolNameEn.slice(0, 15) + '……'
+        }
+      }
     },
     delSchoolById(id) {
       this.$confirm('确认要删除此学校', '提示', {
@@ -189,6 +198,7 @@ export default {
   }
 }
 .imgStyle {
+  display: inline-block;
   width: 128px;
   height: 128px;
   border: 1px dashed #d9d9d9 !important;

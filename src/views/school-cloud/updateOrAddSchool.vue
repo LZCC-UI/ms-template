@@ -63,7 +63,7 @@
     </el-form>
     <div class="footer">
       <el-button type="primary" @click="commit">创建</el-button>
-      <el-button type="info">取消</el-button>
+      <el-button type="info" @click="cancel">取消</el-button>
     </div>
   </div>
 </template>
@@ -198,6 +198,9 @@ export default {
           return false
         }
       })
+    },
+    cancel() {
+      this.$router.push({ name: 'school-manage' })
     },
     handleSelectChange(value) {
       this.pricePlanList.forEach(item => {

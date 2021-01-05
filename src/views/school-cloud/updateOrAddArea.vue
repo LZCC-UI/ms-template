@@ -53,7 +53,13 @@
         </el-table-column>
         <el-table-column label="背景图片" align="center">
           <template slot-scope="scope">
-            <img class="imgStyle" :src="scope.row.schoolBackgroundImg" alt="" />
+            <div v-if="!scope.row.schoolBackgroundImg" class="imgStyle"></div>
+            <img
+              v-else
+              class="imgStyle"
+              :src="scope.row.schoolBackgroundImg"
+              alt=""
+            />
           </template>
         </el-table-column>
         <el-table-column label="学校校徽" align="center">
@@ -72,16 +78,7 @@
     </section>
     <div class="footer">
       <el-button type="primary" @click="commit">创建</el-button>
-      <el-button
-        type="primary"
-        @click="
-          () => {
-            this.$router.go(-1)
-          }
-        "
-      >
-        取消
-      </el-button>
+      <el-button type="info" @click="cancel">取消</el-button>
     </div>
     <el-dialog :visible.sync="schoolDia" align="center" width="900px">
       <section class="_inline">
@@ -105,15 +102,30 @@
           type="selection"
           width="55"
           prop="id"
+          align="center"
         ></el-table-column>
-        <el-table-column label="学校名称" prop="schoolName"></el-table-column>
-        <el-table-column label="英文缩写" prop="schoolNameEn"></el-table-column>
-        <el-table-column label="背景图片">
+        <el-table-column
+          label="学校名称"
+          prop="schoolName"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          label="英文缩写"
+          prop="schoolNameEn"
+          align="center"
+        ></el-table-column>
+        <el-table-column label="背景图片" align="center">
           <template slot-scope="scope">
-            <img class="imgStyle" :src="scope.row.schoolBackgroundImg" alt="" />
+            <div v-if="!scope.row.schoolBackgroundImg" class="imgStyle"></div>
+            <img
+              v-else
+              class="imgStyle"
+              :src="scope.row.schoolBackgroundImg"
+              alt=""
+            />
           </template>
         </el-table-column>
-        <el-table-column label="学校校徽">
+        <el-table-column label="学校校徽" align="center">
           <template slot-scope="scope">
             <img class="imgStyle" :src="scope.row.schoolBadge" alt="" />
           </template>
@@ -200,7 +212,6 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.getAreaItemData(this.$route.params.id)
-      this.getAreaSchoolList(this.$route.params.id)
     }
   },
   methods: {
@@ -213,6 +224,7 @@ export default {
           delete this.areaForm.updateTime
           delete this.areaForm.status
           this.areaForm.areaSchoolList = []
+          this.getAreaSchoolList(this.$route.params.id)
         }
       })
     },
@@ -330,11 +342,15 @@ export default {
         }
       })
     },
+    cancel() {
+      this.$router.push({ name: 'area-manage' })
+    },
   },
 }
 </script>
 <style scoped lang="scss">
 .imgStyle {
+  display: inline-block;
   width: 128px;
   height: 128px;
   border: 1px dashed #d9d9d9 !important;
