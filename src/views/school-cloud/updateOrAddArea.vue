@@ -85,6 +85,8 @@
         <el-input
           v-model="schoolDiaData.searchParam"
           placeholder="请输入想要搜索的学校"
+          clearable
+          @keyup.enter.native="getAreaSelectSchool(-1)"
         ></el-input>
         <el-button type="primary" @click="getAreaSelectSchool(-1)">
           搜索
@@ -93,6 +95,7 @@
       <el-table
         :data="schoolDiaData.schoolList"
         border
+        :empty-text="'未搜索到相关学校信息'"
         ref="multipleTable"
         style="height: 500px; overflow-y: scroll"
         @selection-change="handleSelectionChange"
@@ -319,7 +322,6 @@ export default {
         },
         false
       )
-      console.log(res.data)
       return !res.data
     },
     commit() {
@@ -337,7 +339,7 @@ export default {
             this.$router.push({ name: 'area-manage' })
           })
         } else {
-          console.log('error submit!!')
+          this.$message.warning('请填写必填项并保证中英文名称之前未使用')
           return false
         }
       })

@@ -78,7 +78,6 @@ export default {
       }
       this.fetchData('getAreaList', { pangeIndex: this.currentPage }).then(
         res => {
-          console.log(res.data)
           this.areaList = res.data.pageData
           this.total = res.data.totalSize
           this.dealWithData()

@@ -194,7 +194,7 @@ export default {
             this.$router.push({ name: 'school-manage' })
           })
         } else {
-          console.log('error submit!!')
+          this.$message.warning('请填写必填项并保证中英文名称之前未使用')
           return false
         }
       })
