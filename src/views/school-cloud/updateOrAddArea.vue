@@ -77,7 +77,9 @@
       </el-table>
     </section>
     <div class="footer">
-      <el-button type="primary" @click="commit">创建</el-button>
+      <el-button type="primary" @click="commit">
+        {{ $route.params.id ? '保存' : '创建' }}
+      </el-button>
       <el-button type="info" @click="cancel">取消</el-button>
     </div>
     <el-dialog :visible.sync="schoolDia" align="center" width="900px">
