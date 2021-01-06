@@ -80,7 +80,7 @@ export default {
         } else {
           let checkRepeat = await this.validatName('ch', value)
           if (checkRepeat) {
-            callback('该区域英文名已被占用，请更改')
+            callback('该学校名称已被占用，请更改')
           }
         }
       }
@@ -93,7 +93,7 @@ export default {
         } else {
           let checkRepeat = await this.validatName('en', value)
           if (checkRepeat) {
-            callback('该区域英文名已被占用，请更改')
+            callback('该学校英文缩写已被占用，请更改')
           }
         }
       }

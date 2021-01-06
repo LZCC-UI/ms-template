@@ -14,7 +14,7 @@
       ></el-table-column>
       <el-table-column label="背景图片" align="center">
         <template slot-scope="scope">
-          <div v-if="!scope.row.areaBackgroundImg"></div>
+          <div v-if="!scope.row.areaBackgroundImg" class="imgStyle"></div>
 
           <img
             v-else
@@ -144,6 +144,7 @@ export default {
 
 <style scoped lang="scss">
 .imgStyle {
+  display: inline-block;
   width: 128px;
   height: 128px;
   border: 1px dashed #d9d9d9 !important;
