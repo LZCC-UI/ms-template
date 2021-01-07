@@ -76,7 +76,7 @@ export default {
       if (tag == -1) {
         this.currentPage = 1
       }
-      this.fetchData('getAreaList', { pangeIndex: this.currentPage }).then(
+      this.fetchData('getAreaList', { pageIndex: this.currentPage }).then(
         res => {
           this.areaList = res.data.pageData
           this.total = res.data.totalSize

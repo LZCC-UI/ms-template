@@ -7,6 +7,7 @@
         placeholder="请输入搜索学校的全称"
         clearable
         @keyup.enter.native="getSchoolList(-1)"
+        :maxlength="20"
       ></el-input>
       <el-button type="primary" @click="getSchoolList(-1)">搜索</el-button>
       <el-button type="primary" @click="reset">清空</el-button>

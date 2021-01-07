@@ -81,6 +81,7 @@ export default {
           callback('仅支持汉字和数字且长度不超过20')
         } else {
           let checkRepeat = await this.validatName('ch', value)
+          console.log('checkRepeat', checkRepeat)
           if (checkRepeat) {
             callback('该学校名称已被占用，请更改')
           }
@@ -89,7 +90,7 @@ export default {
     }
     let checkEnName = async (rule, value, callback) => {
       if (value) {
-        let check = /[a-zA-Z]+/.test(value)
+        let check = /^[a-zA-Z]{1,50}$/.test(value)
         if (!check || value.length > 50) {
           callback('仅支持英文且长度不超过50')
         } else {
@@ -188,6 +189,7 @@ export default {
     },
     commit() {
       this.$refs.form.validate(valid => {
+        console.log(valid)
         if (valid) {
           this.fetchData('addOrUpdateSchool', this.school).then(res => {
             this.$message.success(
