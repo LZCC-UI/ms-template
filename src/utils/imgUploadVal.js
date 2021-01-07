@@ -21,7 +21,6 @@ export default function _global_checkFile(file, params) {
 }
 
 function _global_checkSize(file, params) {
-  console.log(params)
   const width = params.w || 10000
   const height = params.h || 10000
   const compTag = params.compTag || -1
@@ -34,7 +33,6 @@ function _global_checkSize(file, params) {
         compTag == 1
           ? img.width > width && img.height > height
           : img.width <= width && img.height <= height
-      console.log(valid)
       if (valid) resolve()
       else reject()
     }

@@ -76,9 +76,9 @@ export default {
   data() {
     let checkName = async (rule, value, callback) => {
       if (value) {
-        let check = /^[\u4e00-\u9fa5]{1,20}$/.test(value)
+        let check = /^[\u4e00-\u9fa50-9]{1,20}$/.test(value)
         if (!check) {
-          callback('仅支持汉字且长度不超过20')
+          callback('仅支持汉字和数字且长度不超过20')
         } else {
           let checkRepeat = await this.validatName('ch', value)
           if (checkRepeat) {
