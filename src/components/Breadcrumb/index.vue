@@ -46,7 +46,7 @@ export default {
     getBreadcrumb() {
       // only show routes with meta.title
       let breadcrumb = this.$route.meta.breadcrumbs || []
-      breadcrumb = [{ path: '/dashboard', title: 'Dashboard' }].concat(
+      breadcrumb = [{ path: '/dashboard', title: '学校云管理' }].concat(
         breadcrumb
       )
       if (!this.isDashboard(this.$route)) {
