@@ -9,7 +9,9 @@
         @keyup.enter.native="getSchoolList(-1)"
         :maxlength="20"
       ></el-input>
-      <el-button type="primary" @click="getSchoolList(-1)">搜索</el-button>
+      <el-button type="primary" id="scrollHere" @click="getSchoolList(-1)">
+        搜索
+      </el-button>
       <el-button type="primary" @click="reset">清空</el-button>
       <el-button type="primary" @click="creatShool">新建学校主页</el-button>
     </div>
@@ -117,6 +119,10 @@ export default {
   },
   created() {
     this.getSchoolList(-1)
+  },
+  mounted() {
+    // console.log('scroll')
+    // document.getElementById('scrollHere').scrollIntoView()
   },
   methods: {
     reset() {

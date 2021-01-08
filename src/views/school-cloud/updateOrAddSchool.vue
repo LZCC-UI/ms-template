@@ -152,6 +152,7 @@ export default {
           this.school.pricePlanDesc = ''
         }
       },
+      immediate: true,
     },
   },
   methods: {

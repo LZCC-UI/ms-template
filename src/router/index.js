@@ -63,8 +63,14 @@ export const constantRoutes = [
 
 const createRouter = () =>
   new Router({
-    scrollBehavior: () => ({ y: 0 }),
     mode: 'history',
+    scrollBehavior: () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({ x: 0, y: 0 })
+        }, 500)
+      })
+    },
     routes: constantRoutes,
   })
 
