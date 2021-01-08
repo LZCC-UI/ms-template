@@ -81,11 +81,11 @@ export default {
           callback('仅支持汉字和数字且长度不超过20')
         } else {
           let checkRepeat = await this.validatName('ch', value)
-          console.log('checkRepeat', checkRepeat)
           if (checkRepeat) {
             callback('该学校名称已被占用，请更改')
           }
         }
+        callback()
       }
     }
     let checkEnName = async (rule, value, callback) => {
@@ -99,7 +99,14 @@ export default {
             callback('该学校英文缩写已被占用，请更改')
           }
         }
+        callback()
       }
+    }
+    let checkIntro = (rule, value, callback) => {
+      if (/^\s+$/.test(value)) {
+        callback('学校简介不支持只输入空格')
+      }
+      callback()
     }
     return {
       school: {
@@ -125,6 +132,7 @@ export default {
         ],
         schoolIntroduction: [
           { required: true, message: '请输入学校简介', trigger: 'blur' },
+          { validator: checkIntro, trigger: 'blur' },
         ],
         schoolBadge: [
           { required: true, message: '请上传校徽', trigger: 'blur' },
@@ -138,9 +146,6 @@ export default {
   },
   created() {
     this.getPricePlanList()
-    if (this.$route.params.id) {
-      this.getSchoolById(this.$route.params.id)
-    }
   },
   watch: {
     'school.pricePlanId': {
@@ -152,7 +157,6 @@ export default {
           this.school.pricePlanDesc = ''
         }
       },
-      immediate: true,
     },
   },
   methods: {
@@ -162,7 +166,7 @@ export default {
         Object.keys(this.school).forEach(key => {
           this.school[key] = res.data[key]
         })
-
+        // this.handleSelectChange(this.school.pricePlanId)
         this.$forceUpdate()
       })
     },
@@ -170,6 +174,9 @@ export default {
     getPricePlanList() {
       this.fetchData('getPricePlanList').then(res => {
         this.pricePlanList = res.data
+        if (this.$route.params.id) {
+          this.getSchoolById(this.$route.params.id)
+        }
       })
     },
     // 检查学校英文名是否重复
@@ -190,13 +197,15 @@ export default {
     },
     commit() {
       this.$refs.form.validate(valid => {
-        console.log(valid)
         if (valid) {
           this.fetchData('addOrUpdateSchool', this.school).then(res => {
             this.$message.success(
               this.$route.params.id ? '更新成功' : '新建成功'
             )
-            this.$router.push({ name: 'school-manage' })
+            this.$router.push({
+              name: 'school-manage',
+              params: { pageIndex: this.$route.params.pageIndex },
+            })
           })
         } else {
           this.$message.warning('请填写必填项并保证中英文名称之前未使用')
@@ -205,9 +214,13 @@ export default {
       })
     },
     cancel() {
-      this.$router.push({ name: 'school-manage' })
+      this.$router.push({
+        name: 'school-manage',
+        params: { pageIndex: this.$route.params.pageIndex },
+      })
     },
     handleSelectChange(value) {
+      console.log(value)
       this.pricePlanList.forEach(item => {
         if (item.id === value) {
           this.$set(this.school, 'pricePlanDesc', item.priceDescription)

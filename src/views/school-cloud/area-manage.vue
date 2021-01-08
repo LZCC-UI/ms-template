@@ -69,12 +69,12 @@ export default {
     }
   },
   created() {
-    this.getData()
+    this.getData(this.$route.params.pageIndex || 1)
   },
   methods: {
     getData(tag) {
-      if (tag == -1) {
-        this.currentPage = 1
+      if (tag) {
+        this.currentPage = tag
       }
       this.fetchData('getAreaList', { pageIndex: this.currentPage }).then(
         res => {
@@ -101,7 +101,14 @@ export default {
       })
         .then(() => {
           this.fetchData('delAreaById', { id: row.id }).then(() => {
-            this.getData()
+            if (this.areaList.length == 1) {
+              this.getData(
+                this.currentPage != 0 ? this.currentPage - 1 : undefined
+              )
+            } else {
+              this.getData()
+            }
+
             this.$message.success('删除成功')
           })
         })
@@ -120,7 +127,10 @@ export default {
       this.$router.push({ name: 'addArea' })
     },
     editArea(id) {
-      this.$router.push({ name: 'editArea', params: { id: id } })
+      this.$router.push({
+        name: 'editArea',
+        params: { id: id, pageIndex: this.currentPage },
+      })
     },
     copyUrl() {
       const clipboard = new Clipboard('.copyBtn', {

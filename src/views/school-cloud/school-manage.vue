@@ -6,10 +6,10 @@
         v-model="searchKey"
         placeholder="请输入搜索学校的全称"
         clearable
-        @keyup.enter.native="getSchoolList(-1)"
+        @keyup.enter.native="getSchoolList(1)"
         :maxlength="20"
       ></el-input>
-      <el-button type="primary" id="scrollHere" @click="getSchoolList(-1)">
+      <el-button type="primary" id="scrollHere" @click="getSchoolList(1)">
         搜索
       </el-button>
       <el-button type="primary" @click="reset">清空</el-button>
@@ -118,7 +118,7 @@ export default {
     }
   },
   created() {
-    this.getSchoolList(-1)
+    this.getSchoolList(this.$route.params.pageIndex || 1)
   },
   mounted() {
     // console.log('scroll')
@@ -129,8 +129,8 @@ export default {
       this.searchKey = ''
     },
     getSchoolList(tag) {
-      if (tag == -1) {
-        this.currentPage = 1
+      if (tag) {
+        this.currentPage = tag
       }
       this.fetchData('getSchoolList', {
         pageIndex: this.currentPage,
@@ -157,7 +157,13 @@ export default {
       })
         .then(() => {
           this.fetchData('delSchoolById', { id: id }).then(res => {
-            this.getSchoolList(-1)
+            if (this.tableData.length == 1) {
+              this.getSchoolList(
+                this.currentPage != 0 ? this.currentPage - 1 : undefined
+              )
+            } else {
+              this.getSchoolList()
+            }
             this.$message.success('删除成功')
           })
         })
@@ -172,7 +178,10 @@ export default {
       this.$router.push({ name: 'addSchool' })
     },
     editSchool(id) {
-      this.$router.push({ name: 'editSchool', params: { id: id } })
+      this.$router.push({
+        name: 'editSchool',
+        params: { pageIndex: this.currentPage, id: id },
+      })
     },
     handleCurrentChange(pageIndex) {
       this.currentPage = pageIndex

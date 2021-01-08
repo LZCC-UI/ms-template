@@ -43,7 +43,7 @@
       <el-button type="primary" @click="getSchoolList(-1)">添加学校</el-button>
       <el-table :data="areaForm.areaSchoolList" border>
         <el-table-column label="序号" align="center">
-          <template slot-scope="scope">{{ scope.$index }}</template>
+          <template slot-scope="scope">{{ scope.$index + 1 }}</template>
         </el-table-column>
         <el-table-column label="学校名称" align="center">
           <template slot-scope="scope">{{ scope.row.schoolName }}</template>
@@ -88,11 +88,9 @@
           v-model="schoolDiaData.searchParam"
           placeholder="请输入想要搜索的学校"
           clearable
-          @keyup.enter.native="getAreaSelectSchool(-1)"
+          @keyup.enter.native="getAreaSelectSchool(0)"
         ></el-input>
-        <el-button type="primary" @click="getAreaSelectSchool(-1)">
-          搜索
-        </el-button>
+        <el-button type="primary" @click="getSchoolList(0)">搜索</el-button>
       </section>
       <el-table
         :data="schoolDiaData.schoolList"
@@ -166,6 +164,7 @@ export default {
             callback('该区域名称已被占用，请更改')
           }
         }
+        callback()
       }
     }
     let checkEnName = async (rule, value, callback) => {
@@ -179,6 +178,7 @@ export default {
             callback('该区域英文名已被占用，请更改')
           }
         }
+        callback()
       }
     }
     return {
@@ -214,6 +214,13 @@ export default {
       },
     }
   },
+  watch: {
+    schoolDia(newVal, oldVal) {
+      if (!newVal) {
+        this.schoolDiaData.searchParam = ''
+      }
+    },
+  },
   created() {
     if (this.$route.params.id) {
       this.getAreaItemData(this.$route.params.id)
@@ -244,7 +251,20 @@ export default {
       })
     },
     removeSchoolItem(index) {
-      this.areaForm.areaSchoolList.splice(index, 1)
+      this.$confirm('确认要删除此学校', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          this.areaForm.areaSchoolList.splice(index, 1)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
+        })
     },
     handleSelectionChange(list) {
       this.schoolCurrentPageChecked = list
@@ -264,8 +284,6 @@ export default {
     },
     // tag -1 标识点击添加学校按钮，0为搜索，1是切页
     async getSchoolList(tag) {
-      //  0. 勾选数据初始化
-      this.schoolCurrentPageChecked = []
       if (tag === -1 || tag === 0) {
         this.schoolDiaData.currentPage = 1
         tag === -1 &&
@@ -273,8 +291,11 @@ export default {
       }
       //   切页或者搜索
       if (tag === 0 || tag === 1) {
+        console.log('搜索')
         this.confirmAddSchoolToArea(-1)
       }
+      //  0. 勾选数据初始化
+      this.schoolCurrentPageChecked = []
       // 1.发送请求
       await this.getAreaSelectSchool(tag)
       // 2.出现弹框
@@ -286,9 +307,11 @@ export default {
         this.$refs.multipleTable.clearSelection()
       })
       // 4.根据获取当前页数据,设置默认勾选项,并从总勾选中清除
+      //   console.log(this.schoolDiaData.schoolList)
       this.schoolDiaData.schoolList.forEach(item => {
         this.schoolTotalChecked.map((checkedItem, index) => {
           if (checkedItem.id === item.id) {
+            // console.log('chencked')
             this.schoolTotalChecked.splice(index, 1)
             this.$nextTick(() => {
               this.$refs.multipleTable.toggleRowSelection(item)
@@ -312,7 +335,7 @@ export default {
     },
     handleCurrentChange(currentPage) {
       this.schoolDiaData.currentPage = currentPage
-      this.getAreaSelectSchool()
+      this.getSchoolList(1)
     },
     async validatName(type, value) {
       let res = await this.fetchData(
@@ -338,7 +361,10 @@ export default {
             this.$message.success(
               this.$route.params.id ? '更新成功' : '新建成功'
             )
-            this.$router.push({ name: 'area-manage' })
+            this.$router.push({
+              name: 'area-manage',
+              params: { pageIndex: this.$route.params.pageIndex },
+            })
           })
         } else {
           this.$message.warning('请填写必填项并保证中英文名称之前未使用')
@@ -347,7 +373,10 @@ export default {
       })
     },
     cancel() {
-      this.$router.push({ name: 'area-manage' })
+      this.$router.push({
+        name: 'area-manage',
+        params: { pageIndex: this.$route.params.pageIndex },
+      })
     },
   },
 }
