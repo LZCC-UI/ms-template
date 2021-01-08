@@ -41,7 +41,7 @@
           >
             删除
           </el-button>
-          <el-button type="text" class="copyBtn" @click="copyUrl">
+          <el-button type="text" class="copyBtn" @click="copyUrl(scope.row.id)">
             复制链接
           </el-button>
         </template>
@@ -132,10 +132,11 @@ export default {
         params: { id: id, pageIndex: this.currentPage },
       })
     },
-    copyUrl() {
+    copyUrl(id) {
       const clipboard = new Clipboard('.copyBtn', {
         text: function () {
-          return '111111111111111111111111111'
+          ;/^(.+)yunke./.test(window.location.href)
+          return `${RegExp.$1}yunke.youdao.com/area-page?areaId=${id}`
         },
       })
       clipboard.on('success', e => {
