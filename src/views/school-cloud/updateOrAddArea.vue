@@ -157,8 +157,8 @@ export default {
   data() {
     let checkName = async (rule, value, callback) => {
       if (value) {
-        let check = /\p{Unified_Ideograph}/gu.test(value)
-        if (!check || value.length > 20) {
+        let check = /^\p{Unified_Ideograph}{1,20}$/gu.test(value)
+        if (!check) {
           callback('仅支持汉字且长度不超过20')
         } else {
           let res = await this.validatName('ch', value)
@@ -170,7 +170,7 @@ export default {
     }
     let checkEnName = async (rule, value, callback) => {
       if (value) {
-        let check = /[a-zA-Z]+/.test(value)
+        let check = /^[a-zA-Z]+$/.test(value)
         if (!check || value.length > 50) {
           callback('仅支持英文且长度不超过50')
         } else {
