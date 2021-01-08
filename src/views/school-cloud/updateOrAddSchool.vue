@@ -28,11 +28,7 @@
       </el-form-item>
       <li class="markTip">（最多可输入400字）</li>
       <el-form-item label="校徽:" prop="schoolBadge">
-        <singleImgUpload
-          v-model="school.schoolBadge"
-          :k="20"
-          :size="{ w: 150, h: 150 }"
-        ></singleImgUpload>
+        <singleImgUpload v-model="school.schoolBadge"></singleImgUpload>
         <i class="markTip">(图片需大于150*150像素，文件小于1M)</i>
       </el-form-item>
       <el-form-item label="背景图片:">

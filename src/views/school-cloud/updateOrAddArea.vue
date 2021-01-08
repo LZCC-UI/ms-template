@@ -32,8 +32,8 @@
         <el-form-item label="区域背景图片:">
           <singleImgUpload
             v-model="areaForm.areaBackgroundImg"
-            :imgAttrs="{ w: 150, h: 150, compTag: 1, k: 1024 }"
           ></singleImgUpload>
+          <i class="markTip">(图片需大于150*150像素，文件小于1M)</i>
         </el-form-item>
       </el-form>
     </section>
