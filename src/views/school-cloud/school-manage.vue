@@ -63,25 +63,23 @@
           align="center"
         >
           <template slot-scope="scope">
-            <el-link
-              @click="editSchool(scope.row.id)"
-              class="operation-btn"
-              :underline="false"
-              type="primary"
-            >
+            <el-button @click="editSchool(scope.row.id)" type="text">
               编辑
-            </el-link>
-            <el-link
-              class="operation-btn"
-              :underline="false"
+            </el-button>
+            <el-button
+              type="text"
+              style="color: #f56c6c"
               @click="delSchoolById(scope.row.id)"
-              type="danger"
             >
               删除
-            </el-link>
-            <el-link class="operation-btn" :underline="false" type="primary">
+            </el-button>
+            <el-button
+              type="text"
+              class="copyBtn"
+              @click="copyUrl(scope.row.id)"
+            >
               复制链接
-            </el-link>
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -97,6 +95,7 @@
 </template>
 
 <script>
+import Clipboard from 'clipboard'
 export default {
   name: 'shool-manage',
   data() {
@@ -186,6 +185,22 @@ export default {
     handleCurrentChange(pageIndex) {
       this.currentPage = pageIndex
       this.getSchoolList()
+    },
+    copyUrl(id) {
+      const clipboard = new Clipboard('.copyBtn', {
+        text: function () {
+          ;/^(.+)yunke./.test(window.location.href)
+          return `${RegExp.$1}yunke.youdao.com/shool-page?schoolId=${id}`
+        },
+      })
+      clipboard.on('success', e => {
+        this.$message({ type: 'success', message: '复制成功' })
+        clipboard.destroy() // 释放内存
+      })
+      clipboard.on('error', e => {
+        this.$message({ type: 'waning', message: '该浏览器不支持自动复制' })
+        clipboard.destroy()
+      })
     },
   },
 }
