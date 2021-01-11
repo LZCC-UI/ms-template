@@ -181,6 +181,12 @@ export default {
         callback()
       }
     }
+    let checkIntro = (rule, value, callback) => {
+      if (/^\s+$/.test(value)) {
+        callback('学校简介不支持只输入空格')
+      }
+      callback()
+    }
     return {
       schoolDia: false,
       schoolDiaData: {
@@ -210,6 +216,7 @@ export default {
         ],
         areaIntroduction: [
           { required: true, message: '请输入区域简介', trigger: 'change' },
+          { validator: checkIntro, trigger: 'blur' },
         ],
       },
     }
