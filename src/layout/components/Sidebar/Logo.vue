@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import logo from '@/assets/images/logo.png'
+import mini_logo from '@/assets/images/mini-logo.png'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -27,9 +29,8 @@ export default {
   },
   data() {
     return {
-      logo: 'https://shared.ydstatic.com/ydkids/website/index/logo.png',
-      miniLogo:
-        'https://shared.ydstatic.com/ydkids/online/wx/img/youdao-logo.png',
+      logo: logo,
+      miniLogo: mini_logo,
     }
   },
 }

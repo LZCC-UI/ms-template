@@ -59,8 +59,7 @@ export default {
 .app-wrapper {
   @include clearfix;
   position: relative;
-  height: 100%;
-  // width: 100%;
+  min-height: 100%;
   min-width: 1300px;
   overflow-x: scroll;
 

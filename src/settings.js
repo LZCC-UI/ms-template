@@ -1,5 +1,5 @@
 module.exports = {
-  title: '有道少儿英语 CRM',
+  title: '有道云课MS',
 
   /**
    * @type {boolean} true | false

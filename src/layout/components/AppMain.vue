@@ -1,8 +1,10 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <router-view :key="key" />
-    </transition>
+    <section class="app-container">
+      <transition name="fade-transform" mode="out-in">
+        <router-view :key="key" />
+      </transition>
+    </section>
   </section>
 </template>
 
@@ -19,11 +21,10 @@ export default {
 
 <style lang="scss" scoped>
 .app-main {
-  min-height: calc(100vh - 50px);
+  height: auto;
   width: 100%;
   position: relative;
   overflow: hidden;
-  background: #f0f2f5;
 }
 
 .fixed-header + .app-main {
@@ -33,7 +34,7 @@ export default {
 .hasTagsView {
   .app-main {
     /* 84 = navbar + tags-view = 50 + 34 */
-    min-height: calc(100vh - 84px);
+    // min-height: calc(100vh - 84px);
   }
 
   .fixed-header + .app-main {
