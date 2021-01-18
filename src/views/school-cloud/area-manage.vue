@@ -135,8 +135,9 @@ export default {
     copyUrl(id) {
       const clipboard = new Clipboard('.copyBtn', {
         text: function () {
-          ;/^(.+)yunke./.test(window.location.href)
-          return `${RegExp.$1}yunke.youdao.com/area-page?areaId=${id}`
+          let reg = /^(.+)yunke./
+          reg.test(window.location.host)
+          return `https://${RegExp.$1}yunke.youdao.com/area-page?areaId=${id}`
         },
       })
       clipboard.on('success', e => {
