@@ -191,7 +191,7 @@ export default {
         text: function () {
           let reg = /^(.+)yunke./
           reg.test(window.location.host)
-          return `https://${RegExp.$1}yunke.youdao.com/area-page?areaId=${id}`
+          return `https://${RegExp.$1}yunke.youdao.com/shool-page?schoolId=${id}`
         },
       })
       clipboard.on('success', e => {
